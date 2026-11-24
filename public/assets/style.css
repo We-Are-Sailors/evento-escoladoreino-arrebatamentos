@@ -767,3 +767,24 @@ p { overflow-wrap: break-word; }
 /* hide the browser scrollbar (page still scrolls; the top bar shows scroll progress) */
 html { scrollbar-width: none; -ms-overflow-style: none; }
 html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
+/* ───────── Aula encerrada ─────────
+   <html>.ended é posto no <head> (index.html) a partir de window.AULA, antes do primeiro paint.
+   .only-live some depois da aula; .only-ended só aparece depois dela. */
+html:not(.ended) .only-ended { display: none !important; }
+.ended .only-live { display: none !important; }
+.ended-card { text-align: left; }
+.ended-txt { margin: 0 0 18px; font-size: .95rem; line-height: 1.55; color: var(--ink-2); }
+.ended-txt strong { color: var(--tawny-dark); font-weight: 600; }
+.ended-card .btn { margin-bottom: 4px; }
+.ended-card .safe svg { stroke: #1f9d55; }
+.top-date-ended i { background: var(--tawny-light); animation: none; }
+.theme-arreb .final .btn-big { margin-top: 4px; }
+
+/* ───────── Áreas de toque ≥ 44 px (mobile first) ───────── */
+.top-cta { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; }
+.sound { min-height: 44px; padding-inline: 16px; }
+.sticky em { display: inline-flex; align-items: center; min-height: 44px; }
+/* links "Privacidade": área de toque ampliada sem mudar o layout do texto */
+.check a, .foot a { position: relative; }
+.check a::after, .foot a::after { content: ""; position: absolute; left: -8px; right: -8px; top: 50%; height: 44px; translate: 0 -50%; }
