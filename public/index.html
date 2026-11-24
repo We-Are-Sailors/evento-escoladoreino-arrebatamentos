@@ -3,12 +3,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Todos os arrebatamentos da Bíblia · Aula ao vivo e gratuita · Escola do Reino</title>
-  <meta name="description" content="Aula ao vivo e gratuita com o Pr. Eduardo Reis: Todos os arrebatamentos da Bíblia. Segunda-feira, 23 de novembro, às 20h, ao vivo no YouTube. Inscreva-se e receba o link no grupo do WhatsApp." />
-  <meta property="og:title" content="Todos os arrebatamentos da Bíblia · Aula ao vivo com o Pr. Eduardo Reis" />
-  <meta property="og:description" content="Segunda, 23/11, às 20h, ao vivo no YouTube. Gratuita, link só no grupo do WhatsApp." />
-  <meta property="og:image" content="/assets/img/og-arrebatamentos.jpg" />
+  <title>Todos os arrebatamentos da Bíblia · Aula encerrada · Escola do Reino</title>
+  <meta name="description" content="A aula ao vivo e gratuita Todos os arrebatamentos da Bíblia, com o Pr. Eduardo Reis, aconteceu em 23 de novembro. Continue estudando a Bíblia no Escola do Reino Club." />
+  <meta property="og:title" content="Todos os arrebatamentos da Bíblia · Aula com o Pr. Eduardo Reis" />
+  <meta property="og:description" content="A aula ao vivo de 23/11 já aconteceu. Continue estudando no Escola do Reino Club." />
+  <meta property="og:image" content="https://arrebatamentos.escoladoreino.com/assets/img/og-arrebatamentos.jpg" />
+  <meta property="og:image:width" content="960" />
+  <meta property="og:image:height" content="1200" />
+  <meta property="og:url" content="https://arrebatamentos.escoladoreino.com/" />
   <meta property="og:type" content="website" />
+  <link rel="canonical" href="https://arrebatamentos.escoladoreino.com/" />
   <meta name="theme-color" content="#0B1012" />
   <link rel="icon" href="/assets/brand/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -18,15 +22,26 @@
   <link rel="preload" as="image" href="/assets/img/arte-larga.webp" type="image/webp" media="(min-width: 761px)" />
   <link rel="stylesheet" href="/assets/style.css" />
   <script src="/assets/pixel.js" defer></script>
-  <script>document.documentElement.classList.add('js');</script>
+  <!-- Data e hora da aula: ÚNICA fonte para a contagem regressiva e para o estado "aula encerrada"
+       (classe .ended no <html>, fimHoras depois do início). app.js lê window.AULA. -->
+  <script>
+    window.AULA = { inicio: '2026-11-23T20:00:00-03:00', fimHoras: 3 };
+    (function (d, a) {
+      d.classList.add('js');
+      a.fim = new Date(a.inicio).getTime() + a.fimHoras * 36e5;
+      if (Date.now() >= a.fim) d.classList.add('ended');
+    })(document.documentElement, window.AULA);
+  </script>
 </head>
 <body class="theme-arreb">
   <!-- ───────── Topo: vira pílula ao rolar, com barra de progresso ───────── -->
   <header class="top" id="top">
     <div class="top-in">
       <img class="logo" src="/assets/brand/logo-claro.svg" alt="Escola do Reino Club" width="511" height="118" />
-      <span class="top-date" aria-hidden="true"><i></i>Seg · 23/11 · 20h</span>
-      <a class="top-cta" href="#inscricao">Garantir vaga</a>
+      <span class="top-date only-live" aria-hidden="true"><i></i>Seg · 23/11 · 20h</span>
+      <span class="top-date top-date-ended only-ended" aria-hidden="true"><i></i>Aula encerrada</span>
+      <a class="top-cta only-live" href="#inscricao">Garantir vaga</a>
+      <a class="top-cta only-ended" href="https://escoladoreino.com/planos">Conhecer o Club</a>
     </div>
     <span class="top-bar" aria-hidden="true"></span>
   </header>
@@ -45,7 +60,7 @@
       <div class="motes" data-motes="34" aria-hidden="true"></div>
 
       <div class="wrap poster-in">
-        <p class="live intro" style="--d:.05s"><span class="dot" aria-hidden="true"></span>Aula ao vivo · 100% gratuita</p>
+        <p class="live intro" style="--d:.05s"><span class="dot" aria-hidden="true"></span><span class="only-live">Aula ao vivo · 100% gratuita</span><span class="only-ended">Aula encerrada · 23/11</span></p>
         <h1 class="display split" data-split>Todos os <em>arrebatamentos</em> da Bíblia</h1>
         <p class="byline intro" style="--d:.7s">com Pr. Eduardo Reis</p>
 
@@ -56,7 +71,7 @@
 
         <p class="lead intro" style="--d:.95s">De Enoque à Igreja: uma noite com a Bíblia aberta, passando por <strong>cada arrebatamento registrado nas Escrituras</strong> e pelo que eles revelam sobre os planos de Deus para o fim dos tempos.</p>
 
-        <div class="countdown intro" style="--d:1.05s" data-countdown="2026-11-23T20:00:00-03:00">
+        <div class="countdown intro only-live" style="--d:1.05s" data-countdown>
           <p class="cd-label">Faltam</p>
           <div class="cd-units">
             <span><b data-u="d">--</b>dias</span><i>:</i>
@@ -67,7 +82,21 @@
         </div>
 
         <!-- Formulário. Envia para /api/inscricao e leva para /grupo. -->
-        <form class="card intro-up" id="inscricao" novalidate>
+        <!-- Depois da aula (html.ended): este cartão no lugar do formulário, levando ao Club. -->
+        <div class="card intro-up ended-card only-ended" id="encerrada">
+          <div class="card-head">
+            <span class="card-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6.5C6.5 5 9.5 5 12 6.5 14.5 5 17.5 5 20 6.5V19c-2.5-1.5-5.5-1.5-8 0-2.5-1.5-5.5-1.5-8 0z"/><path d="M12 6.5V19"/></svg></span>
+            <div>
+              <h2>A aula já aconteceu</h2>
+              <p class="card-sub">Foi na <b>segunda, 23/11</b>. As inscrições estão encerradas.</p>
+            </div>
+          </div>
+          <p class="ended-txt">Obrigado a quem esteve com a gente! Se você quer continuar estudando a Bíblia com o Pr. Eduardo Reis, o caminho é o <strong>Escola do Reino Club</strong>: aulas de teologia para estudar no seu ritmo.</p>
+          <a class="btn" href="https://escoladoreino.com/planos"><span class="btn-txt">Conhecer o Club</span><span class="arr" aria-hidden="true">→</span></a>
+          <p class="safe"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>Mais de 30 mil alunos já estudaram com a Escola do Reino.</p>
+        </div>
+
+        <form class="card intro-up only-live" id="inscricao" novalidate>
           <!-- Etapas: 0 = convite com a placa; 1 = nome; 2 = WhatsApp; 3 = e-mail + aceite.
                app.js mostra uma etapa por vez (data-step no form). Sem JS, todas aparecem juntas. -->
           <div class="steps-bar" aria-hidden="true"><i></i><span class="steps-count">Etapa <b data-stepnum>1</b> de 3</span></div>
@@ -236,7 +265,8 @@
         <div class="teacher-copy">
           <p class="eyebrow light left reveal">Quem vai ensinar</p>
           <h2 class="reveal" style="--d:.06s">Pr. Eduardo Reis</h2>
-          <p class="reveal" style="--d:.12s">Fundador da Escola do Reino, a plataforma de teologia que já formou <strong>mais de 30 mil alunos</strong>. Na segunda, 23/11, ele percorre <strong>todos os arrebatamentos da Bíblia</strong> ao vivo no YouTube, para você acompanhar tudo em tempo real.</p>
+          <p class="reveal only-live" style="--d:.12s">Fundador da Escola do Reino, a plataforma de teologia que já formou <strong>mais de 30 mil alunos</strong>. Na segunda, 23/11, ele percorre <strong>todos os arrebatamentos da Bíblia</strong> ao vivo no YouTube, para você acompanhar tudo em tempo real.</p>
+          <p class="reveal only-ended" style="--d:.12s">Fundador da Escola do Reino, a plataforma de teologia que já formou <strong>mais de 30 mil alunos</strong>. Na segunda, 23/11, ele percorreu <strong>todos os arrebatamentos da Bíblia</strong> ao vivo no YouTube. No Club, o estudo continua.</p>
           <blockquote class="reveal" style="--d:.18s">“Nós assumimos o compromisso de trabalhar para fazer da Escola do Reino <b>a maior plataforma de teologia do Brasil</b> e democratizar o acesso ao ensino teológico.”</blockquote>
           <div class="stats">
             <div class="reveal" style="--d:.2s"><b><span data-count="30">0</span> mil+</b><span>alunos</span></div>
@@ -248,7 +278,7 @@
     </section>
 
     <!-- ───────── Como funciona: linha que enche com a rolagem ───────── -->
-    <section class="steps">
+    <section class="steps only-live">
       <div class="wrap">
         <p class="eyebrow reveal">Como funciona</p>
         <h2 class="center reveal" style="--d:.06s">Três passos e você está <span class="hl">dentro</span></h2>
@@ -266,12 +296,15 @@
       <div class="motes" data-motes="24" aria-hidden="true"></div>
       <div class="wrap final-in">
         <img class="reveal zoom" src="/assets/brand/simbolo-tawny.svg" alt="" width="54" height="64" />
-        <h2 class="display reveal" style="--d:.06s">Segunda, 20h.<br /><span>Seu lugar já está guardado?</span></h2>
-        <p class="reveal" style="--d:.12s">A aula é gratuita, mas o link só chega para quem está no grupo.</p>
-        <div class="mini-cd reveal" style="--d:.16s" data-countdown="2026-11-23T20:00:00-03:00">
+        <h2 class="display reveal only-live" style="--d:.06s">Segunda, 20h.<br /><span>Seu lugar já está guardado?</span></h2>
+        <p class="reveal only-live" style="--d:.12s">A aula é gratuita, mas o link só chega para quem está no grupo.</p>
+        <h2 class="display reveal only-ended" style="--d:.06s">A aula acabou.<br /><span>O estudo continua.</span></h2>
+        <p class="reveal only-ended" style="--d:.12s">No Escola do Reino Club você segue aprendendo teologia com o Pr. Eduardo Reis.</p>
+        <a class="btn btn-big reveal only-ended" style="--d:.2s" href="https://escoladoreino.com/planos"><span class="btn-txt">Ver os planos do Club</span><span class="arr" aria-hidden="true">→</span></a>
+        <div class="mini-cd reveal only-live" style="--d:.16s" data-countdown>
           <span><b data-u="d">--</b>d</span><span><b data-u="h">--</b>h</span><span><b data-u="m">--</b>m</span><span><b data-u="s">--</b>s</span>
         </div>
-        <a class="plaque plaque-link reveal" style="--d:.2s" href="#inscricao">
+        <a class="plaque plaque-link reveal only-live" style="--d:.2s" href="#inscricao">
           <picture>
             <source type="image/webp" srcset="/assets/img/placa-participar.webp" />
             <img src="/assets/img/placa-participar.png" alt="Clique aqui para participar" width="636" height="210" loading="lazy" />
@@ -289,7 +322,8 @@
   </footer>
 
   <!-- Barra fixa no celular: aparece quando o formulário sai da tela -->
-  <a class="sticky" href="#inscricao" aria-hidden="true" tabindex="-1"><span><b>Aula gratuita</b> · Seg 23/11, 20h</span><em>Garantir vaga →</em></a>
+  <a class="sticky only-live" href="#inscricao" aria-hidden="true" tabindex="-1"><span><b>Aula gratuita</b> · Seg 23/11, 20h</span><em>Garantir vaga →</em></a>
+  <a class="sticky only-ended" href="https://escoladoreino.com/planos" aria-hidden="true" tabindex="-1"><span><b>Aula encerrada</b> · o estudo continua</span><em>Conhecer o Club →</em></a>
 
   <script src="/assets/app.js" defer></script>
 </body>

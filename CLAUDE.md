@@ -9,7 +9,7 @@ Capture page for the free live class **"Todos os arrebatamentos da Bíblia"** (P
 Mon 2026-11-23 20:00 BRT, live on YouTube) of the Escola do Reino. Cloned from the previous class page
 (github.com/edunascimentt/evento-escoladoreino, escatologia.escoladoreino.com): same backend, same pixel.
 
-- Live: https://arrebatamentos.escoladoreino.com (also https://evento-escoladoreino-arrebatamentos.polaris-web.workers.dev)
+- Live: https://arrebatamentos.escoladoreino.com (workers.dev URL disabled: `workers_dev: false`)
 - Flow: `/` (event page + 3-step form: name → WhatsApp → e-mail + consent) → `/grupo`
   ("Entrar no grupo" WhatsApp button via `/entrar`, plus secondary "save to calendar" buttons:
   Google Calendar link and `/aula.ics`). The live link is posted in the WhatsApp group.
@@ -39,8 +39,10 @@ Mon 2026-11-23 20:00 BRT, live on YouTube) of the Escola do Reino. Cloned from t
 | Class name/date ids, pixel id | `wrangler.jsonc` → `vars` |
 
 - Group link: `WHATSAPP_GROUP_URL` in `wrangler.jsonc` (empty = /grupo shows "convite sendo liberado"). Calendar event: `public/aula.ics` + Google link in `public/grupo.html`.
-- **Class date/time:** appears in `public/index.html` (`data-countdown="2026-11-23T20:00:00-03:00"`,
-  twice, plus visible texts "23 de novembro", "Seg · 23/11 · 20h", "Segunda", ticker, sticky bar),
+- **Class date/time:** single constant `window.AULA = { inicio, fimHoras }` in the `<head>` of
+  `public/index.html` (drives both countdowns and the "aula encerrada" state: `fimHoras` after the start,
+  `<html>` gets `.ended`, which hides `.only-live` and shows `.only-ended`: the form becomes a card
+  pointing to https://escoladoreino.com/planos). Visible texts also mention it "23 de novembro", "Seg · 23/11 · 20h", "Segunda", ticker, sticky bar),
   `public/grupo.html` (recap list, Google Calendar link), `public/aula.ics` and `AULA_NOME` in `wrangler.jsonc`.
 
 ## Data (important)

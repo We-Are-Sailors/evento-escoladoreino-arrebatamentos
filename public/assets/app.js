@@ -10,6 +10,22 @@
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var fine = window.matchMedia('(pointer: fine)').matches;
 
+  /* ── Data da aula: vem de window.AULA (index.html, <head>), única fonte. ──
+     Depois de AULA.fim (início + fimHoras), <html> ganha .ended: o CSS troca o formulário pelo
+     cartão "aula encerrada" (.only-live / .only-ended). Se a página estiver aberta na virada, troca sozinha. */
+  var AULA = window.AULA || { inicio: '2026-11-23T20:00:00-03:00', fimHoras: 3 };
+  var START = new Date(AULA.inicio).getTime();
+  var END = AULA.fim || START + AULA.fimHoras * 36e5;
+  var ended = function () { return root.classList.contains('ended'); };
+  var onEnded = [];
+  function markEnded() {
+    if (ended()) return;
+    root.classList.add('ended');
+    onEnded.forEach(function (fn) { fn(); });
+  }
+  if (Date.now() >= END) root.classList.add('ended');
+  else if (END - Date.now() < 2147483647) setTimeout(markEnded, END - Date.now() + 50);
+
   /* ── Meta Pixel: carregado por pixel.js (PageView). Aqui: ViewContent e os eventos do funil. ── */
   var px = window.edrPixel || { track: function () {}, custom: function () {}, eid: function () { return null; } };
   px.track('ViewContent', { content_name: 'Aula: Todos os arrebatamentos da Bíblia', content_category: 'aula_gratuita' });
@@ -83,8 +99,10 @@
   var verseWords = verse ? $$('.w', verse) : [];
   var tl = $('[data-timeline]');
   var tlItems = tl ? $$('li', tl) : [];
-  var sticky = $('.sticky');
+  var stickies = $$('.sticky');
   var form = $('#inscricao');
+  var endCard = $('#encerrada');
+  var seen = { form: true, end: true };
   var formVisible = true;
   var ticking = false;
   function onScroll() {
@@ -106,13 +124,20 @@
       tl.style.setProperty('--fill', f.toFixed(3));
       tlItems.forEach(function (li) { li.classList.toggle('on', li.getBoundingClientRect().top + 28 < vh * .6); });
     }
-    if (sticky) sticky.classList.toggle('show', !formVisible && y > vh * .6 && !root.classList.contains('sent'));
+    formVisible = ended() ? seen.end : seen.form;
+    stickies.forEach(function (st) { st.classList.toggle('show', !formVisible && y > vh * .6 && !root.classList.contains('sent')); });
   }
   window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
   window.addEventListener('resize', onScroll);
-  if (form && 'IntersectionObserver' in window) {
-    new IntersectionObserver(function (es) { formVisible = es[0].isIntersecting; onScroll(); }).observe(form);
+  if ('IntersectionObserver' in window) {
+    var vo = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { seen[e.target === endCard ? 'end' : 'form'] = e.isIntersecting; });
+      onScroll();
+    });
+    if (form) vo.observe(form);
+    if (endCard) vo.observe(endCard);
   }
+  onEnded.push(onScroll);
   onScroll();
 
   /* ── 5) Luz que segue o cursor no hero + cards 3D ── */
@@ -177,7 +202,7 @@
 
   /* ── 8) Contagem regressiva (com "virada" dos números) ── */
   $$('[data-countdown]').forEach(function (cd) {
-    var target = new Date(cd.getAttribute('data-countdown')).getTime();
+    var target = START;
     var units = {};
     $$('[data-u]', cd).forEach(function (el) { units[el.getAttribute('data-u')] = el; });
     var pad = function (n) { return n < 10 ? '0' + n : String(n); };
@@ -356,6 +381,7 @@
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
+    if (ended()) return; // inscrições encerradas (o formulário fica escondido pelo CSS)
     if (step === 0) return goTo(1);
     var bad = validate(step);
     if (bad) return showError(bad);

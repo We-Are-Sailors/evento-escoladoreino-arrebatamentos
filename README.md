@@ -5,7 +5,7 @@ Flow: `/` (event page + stepped form) → `/grupo` (WhatsApp group button via `/
 Group link: `WHATSAPP_GROUP_URL` in `wrangler.jsonc`.
 
 - Worker `evento-escoladoreino-arrebatamentos` — https://arrebatamentos.escoladoreino.com
-  (also https://evento-escoladoreino-arrebatamentos.polaris-web.workers.dev). See CLAUDE.md for the full guide.
+  (workers.dev URL disabled). See CLAUDE.md for the full guide.
 - Same backend as the previous class page (github.com/edunascimentt/evento-escoladoreino): writes into the
   **same D1 as escoladoreino.com** (`escoladoreino-club`): each sign-up is a `leads` row (status `cadastrou`,
   `landing_path=/aula-todos-arrebatamentos`) + an `aula_inscricao` event. They show up in escoladoreino.com/admin → Leads. This project never alters tables.

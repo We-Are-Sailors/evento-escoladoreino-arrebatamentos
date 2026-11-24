@@ -11,7 +11,7 @@
   // arrebatamentos.escoladoreino.com: Workers custom domain (Cloudflare creates the DNS record;
   // the escoladoreino.com zone uses Cloudflare nameservers).
   "routes": [{ "pattern": "arrebatamentos.escoladoreino.com", "custom_domain": true }],
-  "workers_dev": true,
+  "workers_dev": false,
   "preview_urls": false,
 
   // Static pages live in ./public; only /api/*, /entrar and /admin/* run the Worker.
